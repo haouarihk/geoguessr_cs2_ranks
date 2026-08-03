@@ -2,6 +2,8 @@
 
 Chrome extension that replaces GeoGuessr division badges with classic Counter-Strike 2 competitive skill group icons, and styles Current/Best rating as CS2 Premier badges. Runs only on `https://www.geoguessr.com/`.
 
+**Open source.** See [PRIVACY.md](PRIVACY.md) for the privacy policy.
+
 ## Install (unpacked)
 
 1. Open Chrome and go to `chrome://extensions`
