@@ -6,6 +6,16 @@ Browser extension (Chrome + Firefox) that replaces GeoGuessr division badges wit
 
 Icons are **not** shipped in the package — they are downloaded on demand from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons.
 
+## Screenshots
+
+![Champion division with Global Elite icon and Premier-style ratings](screenshots/global-ss.png)
+
+
+![Duel lobby player cards with Premier-style overall and mode ratings](screenshots/duos.png)
+
+
+![Gold division with CS2 skill group icon and Premier-style ratings](screenshots/gold-ss.png)
+
 ## Install
 
 ### Chrome / Chromium / Edge
@@ -69,13 +79,8 @@ Rank keys are matched mode-agnostically (solo, duel, team, ranked prefixes are s
 ```
 src/                 # extension package root (load this folder / zip these files)
   manifest.json
-  icons-remote.js
-  ranks.js
-  content.js
-  medals.js
-  medals-content.js
-  premier.js
-  premier.css
+  …
+screenshots/         # README images
 .github/workflows/   # CI packaging
 PRIVACY.md
 README.md
