@@ -37,13 +37,13 @@ Icons are **not** shipped in the package — they are downloaded on demand from 
 1. Open `chrome://extensions` (or `edge://extensions`)
 2. Enable **Developer mode**
 3. Click **Load unpacked**
-4. Select the [`src`](src) folder
+4. Select this project folder (the one that contains `manifest.json` and `src/`)
 
 ### Firefox
 
 1. Open `about:debugging#/runtime/this-firefox`
 2. Click **Load Temporary Add-on…**
-3. Select [`src/manifest.json`](src/manifest.json) (or a packaged `.zip` from CI)
+3. Select [`manifest.json`](manifest.json) at the project root (or a packaged `.zip` from CI)
 4. Note: temporary add-ons are removed when Firefox restarts — prefer the [Firefox Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/geoguessr-cs2-ranks/) for a permanent install
 
 5. Open [geoguessr.com](https://www.geoguessr.com/) and check a ranked division badge
@@ -105,9 +105,9 @@ CS2 Premier colors use 5,000-point bands. GeoGuessr ratings are scaled by **×20
 ## Project layout
 
 ```
-src/                 # extension package root (load this folder / zip these files)
-  manifest.json
-  …
+manifest.json        # extension entry (paths point into src/)
+src/                 # content scripts + styles
+assets/              # image assets
 badges/              # store install buttons for the README
 screenshots/         # README images
 .github/workflows/   # CI packaging

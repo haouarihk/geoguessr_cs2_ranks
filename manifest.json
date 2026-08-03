@@ -8,9 +8,7 @@
       "id": "geoguessr-cs2-ranks@open-source",
       "strict_min_version": "109.0",
       "data_collection_permissions": {
-        "required": [
-          "none"
-        ]
+        "required": ["none"]
       }
     }
   },
@@ -19,20 +17,16 @@
   ],
   "content_scripts": [
     {
-      "matches": [
-        "https://www.geoguessr.com/*"
-      ],
+      "matches": ["https://www.geoguessr.com/*"],
       "js": [
-        "icons-remote.js",
-        "ranks.js",
-        "medals.js",
-        "content.js",
-        "medals-content.js",
-        "premier.js"
+        "src/icons-remote.js",
+        "src/ranks.js",
+        "src/medals.js",
+        "src/content.js",
+        "src/medals-content.js",
+        "src/premier.js"
       ],
-      "css": [
-        "premier.css"
-      ],
+      "css": ["src/premier.css"],
       "run_at": "document_idle"
     }
   ]
