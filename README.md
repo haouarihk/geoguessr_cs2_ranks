@@ -2,7 +2,9 @@
 
 Browser extension (Chrome + Firefox) that replaces GeoGuessr division badges with classic Counter-Strike 2 competitive skill group icons, and styles ratings as CS2 Premier badges. Runs only on `https://www.geoguessr.com/`.
 
-**Open source.** See [PRIVACY.md](PRIVACY.md) for the privacy policy.
+**Open source** under [GPL-3.0](LICENSE). See [PRIVACY.md](PRIVACY.md) for the privacy policy.
+
+You may use, modify, and redistribute this project freely, as long as derivative works remain open source under the same license.
 
 Icons are **not** shipped in the package — they are downloaded on demand from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons.
 
@@ -82,6 +84,15 @@ src/                 # extension package root (load this folder / zip these file
   …
 screenshots/         # README images
 .github/workflows/   # CI packaging
+LICENSE              # GPL-3.0
 PRIVACY.md
 README.md
 ```
+
+## License
+
+Copyright (C) 2026 haouarihk
+
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
+
+You can run, study, share, and modify it. If you distribute a modified version, you must also release it under GPL-3.0 (keep it open source).
