@@ -4,6 +4,8 @@ Chrome extension that replaces GeoGuessr division badges with classic Counter-St
 
 **Open source.** See [PRIVACY.md](PRIVACY.md) for the privacy policy.
 
+Icons are **not** shipped in the package — they are downloaded on demand from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons.
+
 ## Install (unpacked)
 
 1. Open Chrome and go to `chrome://extensions`
@@ -34,22 +36,21 @@ Chrome extension that replaces GeoGuessr division badges with classic Counter-St
 
 Rank keys are matched mode-agnostically (solo, duel, team, ranked prefixes are stripped), so the same icons apply everywhere on geoguessr.com.
 
-### Collected medals → CS2 Premier medals
+### Collected medals → CS service medals
 
-| GeoGuessr | CS2 Premier medal |
+| GeoGuessr | Remote asset |
 | --- | --- |
-| Bronze | Grey |
-| Silver | Light blue |
-| Gold | Blue |
-| Platinum | Pink |
-
-Icons are bundled from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons. Premier medals are cropped from `cs2medals.png`.
+| Bronze | `service_medal_2018_lvl1_large` (grey) |
+| Silver | `service_medal_2018_lvl2_large` (light blue) |
+| Gold | `service_medal_2018_lvl3_large` (blue) |
+| Platinum | `service_medal_2018_lvl5_large` (pink) |
 
 ## Files
 
 - `manifest.json` — MV3 extension config
-- `ranks.js` — rank key → icon map
-- `content.js` — DOM scanner + MutationObserver for division images
-- `medals.js` / `medals-content.js` — collected medals → Premier medals
-- `premier.js` / `premier.css` — Current/Best rating → Premier-style badge
-- `icons/` — bundled skill group + Premier medal PNGs
+- `icons-remote.js` — fetch + blob cache for remote icons
+- `ranks.js` — rank key → skillgroup filename
+- `content.js` — division image replacements
+- `medals.js` / `medals-content.js` — collected medals
+- `premier.js` / `premier.css` — Premier-style rating badges
+- `PRIVACY.md` — privacy policy

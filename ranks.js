@@ -1,4 +1,4 @@
-/** GeoGuessr rank key → CS2 skillgroup filename (without path). */
+/** GeoGuessr rank key → CS2 skillgroup filename. */
 const RANK_MAP = {
   bronze: "skillgroup1.png",
   bronze1: "skillgroup1.png",
@@ -56,13 +56,14 @@ function normalizeRankKey(stem) {
     return lower;
   }
 
-  // soloGold1 / duelSilver4 / teamChampion → gold1 / silver4 / champion
   const stripped = lower.replace(/^(solo|duel|team|ranked)+/, "");
   if (RANK_MAP[stripped]) {
     return stripped;
   }
 
-  const embedded = lower.match(/(bronze[1-4]?|silver[1-4]|gold[1-4]|master[1-4]|champion)$/);
+  const embedded = lower.match(
+    /(bronze[1-4]?|silver[1-4]|gold[1-4]|master[1-4]|champion)$/
+  );
   if (embedded && RANK_MAP[embedded[1]]) {
     return embedded[1];
   }
@@ -80,7 +81,6 @@ function extractRankKey(value) {
 
   const decoded = decodeSafe(value);
 
-  // Collected medals (medal-bronze.svg etc.) are handled separately.
   if (/medal[-_]?(bronze|silver|gold|platinum)/i.test(decoded)) {
     return null;
   }
@@ -95,7 +95,6 @@ function extractRankKey(value) {
     if (key) return key;
   }
 
-  // Fallback: division empty assets or exact division stems only
   const empty = decoded.match(/([a-z0-9]*divisionimageempty)/i);
   if (empty) return normalizeRankKey(empty[1]);
 
@@ -106,14 +105,13 @@ function extractRankKey(value) {
 }
 
 /**
- * Resolve the CS2 icon path for a GeoGuessr rank key.
+ * Resolve the remote CS2 icon filename for a GeoGuessr rank key.
  * @param {string} rankKey
  * @returns {string | null}
  */
-function getCs2IconPath(rankKey) {
+function getCs2IconFilename(rankKey) {
   if (rankKey === "divisionimageempty") {
-    return "icons/skillgroup_none.png";
+    return "skillgroup_none.png";
   }
-  const file = RANK_MAP[rankKey];
-  return file ? `icons/${file}` : null;
+  return RANK_MAP[rankKey] || null;
 }

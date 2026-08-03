@@ -1,9 +1,12 @@
-/** GeoGuessr collected medal → CS2 Premier medal icon. */
+/**
+ * GeoGuessr collected medals → CS service medals (colored Premier-style stars).
+ * lvl1 grey … lvl5 pink — from the same SteamTracking status_icons dump.
+ */
 const COLLECTED_MEDAL_MAP = {
-  bronze: "icons/premier_grey.png",
-  silver: "icons/premier_lightblue.png",
-  gold: "icons/premier_blue.png",
-  platinum: "icons/premier_pink.png",
+  bronze: "service_medal_2018_lvl1_large.png",
+  silver: "service_medal_2018_lvl2_large.png",
+  gold: "service_medal_2018_lvl3_large.png",
+  platinum: "service_medal_2018_lvl5_large.png",
 };
 
 /**
@@ -48,8 +51,7 @@ function detectCollectedMedalType(img) {
  */
 function isCollectedMedalImage(img) {
   if (img.closest('[class*="medal-count"], [class*="medalCount"], fieldset')) {
-    const type = detectCollectedMedalType(img);
-    if (type) return true;
+    if (detectCollectedMedalType(img)) return true;
   }
   return /medal[-_]?(bronze|silver|gold|platinum)/i.test(
     `${img.getAttribute("src") || ""} ${img.getAttribute("srcset") || ""}`

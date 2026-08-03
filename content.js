@@ -27,7 +27,6 @@
    * @param {HTMLImageElement} img
    */
   function replaceImg(img) {
-    // Collected medals use Premier season medals, not skill groups.
     if (
       typeof isCollectedMedalImage === "function" &&
       isCollectedMedalImage(img)
@@ -39,29 +38,30 @@
     const rankKey = rankKeyFromImg(img);
     if (!rankKey) return;
 
-    const iconPath = getCs2IconPath(rankKey);
-    if (!iconPath) return;
+    const filename = getCs2IconFilename(rankKey);
+    if (!filename) return;
 
     const existing = img.getAttribute(ATTR);
-    if (existing === rankKey && img.src.includes("chrome-extension://")) {
+    if (existing === rankKey && isResolvedIconSrc(img.src)) {
       return;
     }
 
-    const url = chrome.runtime.getURL(iconPath);
+    img.setAttribute(ATTR, rankKey);
     img.removeAttribute("srcset");
     img.removeAttribute("data-srcset");
     img.removeAttribute("data-src");
-    img.src = url;
-    img.setAttribute(ATTR, rankKey);
+
+    resolveIconUrl(filename).then((url) => {
+      if (img.getAttribute(ATTR) !== rankKey) return;
+      img.src = url;
+    });
   }
 
   /**
    * @param {Element | null} root
    */
   function scan(root = document) {
-    const imgs = root.querySelectorAll
-      ? root.querySelectorAll("img")
-      : [];
+    const imgs = root.querySelectorAll ? root.querySelectorAll("img") : [];
 
     for (const node of imgs) {
       const img = /** @type {HTMLImageElement} */ (node);
@@ -90,7 +90,10 @@
 
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
-      if (mutation.type === "attributes" && mutation.target instanceof HTMLImageElement) {
+      if (
+        mutation.type === "attributes" &&
+        mutation.target instanceof HTMLImageElement
+      ) {
         replaceImg(mutation.target);
         continue;
       }

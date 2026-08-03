@@ -12,20 +12,23 @@
     const type = detectCollectedMedalType(img);
     if (!type) return;
 
-    const iconPath = COLLECTED_MEDAL_MAP[type];
-    if (!iconPath) return;
+    const filename = COLLECTED_MEDAL_MAP[type];
+    if (!filename) return;
 
-    if (img.getAttribute(ATTR) === type && img.src.includes("chrome-extension://")) {
+    if (img.getAttribute(ATTR) === type && isResolvedIconSrc(img.src)) {
       return;
     }
 
-    const url = chrome.runtime.getURL(iconPath);
+    img.setAttribute(ATTR, type);
+    img.removeAttribute("data-cs2-rank");
     img.removeAttribute("srcset");
     img.removeAttribute("data-srcset");
     img.removeAttribute("data-src");
-    img.src = url;
-    img.setAttribute(ATTR, type);
-    img.removeAttribute("data-cs2-rank");
+
+    resolveIconUrl(filename).then((url) => {
+      if (img.getAttribute(ATTR) !== type) return;
+      img.src = url;
+    });
   }
 
   /**
@@ -52,8 +55,14 @@
 
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
-      if (mutation.type === "attributes" && mutation.target instanceof HTMLImageElement) {
-        if (isCollectedMedalImage(mutation.target) || mutation.target.getAttribute(ATTR)) {
+      if (
+        mutation.type === "attributes" &&
+        mutation.target instanceof HTMLImageElement
+      ) {
+        if (
+          isCollectedMedalImage(mutation.target) ||
+          mutation.target.getAttribute(ATTR)
+        ) {
           replaceMedal(mutation.target);
         }
         continue;
