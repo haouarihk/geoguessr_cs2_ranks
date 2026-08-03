@@ -6,6 +6,18 @@ Browser extension (Chrome + Firefox) that replaces GeoGuessr division badges wit
 
 You may use, modify, and redistribute this project freely, as long as derivative works remain open source under the same license.
 
+<p align="center">
+  <img src="badges/chrome-coming-soon.png" alt="Available in the Chrome Web Store — Coming soon" height="60">
+  &nbsp;&nbsp;
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/geoguessr-cs2-ranks/">
+    <img src="badges/firefox-get-the-addon.png" alt="Get the Add-on for Firefox" height="60">
+  </a>
+</p>
+
+<p align="center">
+  <sub>Chrome Web Store listing is not available yet. Firefox is live on <a href="https://addons.mozilla.org/en-US/firefox/addon/geoguessr-cs2-ranks/">addons.mozilla.org</a>.</sub>
+</p>
+
 Icons are **not** shipped in the package — they are downloaded on demand from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons.
 
 ## Screenshots
@@ -82,6 +94,7 @@ Rank keys are matched mode-agnostically (solo, duel, team, ranked prefixes are s
 src/                 # extension package root (load this folder / zip these files)
   manifest.json
   …
+badges/              # store install buttons for the README
 screenshots/         # README images
 .github/workflows/   # CI packaging
 LICENSE              # GPL-3.0
