@@ -1,6 +1,10 @@
 /** GeoGuessr rank key → CS2 skillgroup filename (without path). */
 const RANK_MAP = {
   bronze: "skillgroup1.png",
+  bronze1: "skillgroup1.png",
+  bronze2: "skillgroup1.png",
+  bronze3: "skillgroup1.png",
+  bronze4: "skillgroup1.png",
   silver4: "skillgroup4.png",
   silver3: "skillgroup3.png",
   silver2: "skillgroup2.png",
@@ -18,11 +22,11 @@ const RANK_MAP = {
 
 /** Matches a media filename stem inside Next.js image URLs / srcsets. */
 const MEDIA_STEM_PATTERN =
-  /(?:media\/|media%2F|\/)((?:[a-zA-Z]+DivisionImageEmpty)|(?:(?:solo|duel|team|ranked)?(?:bronze|silver[1-4]|gold[1-4]|master[1-4]|champion)))(?=[.\-%_]|$)/gi;
+  /(?:media\/|media%2F|\/)((?:[a-zA-Z]+DivisionImageEmpty)|(?:(?:solo|duel|team|ranked)?(?:bronze[1-4]?|silver[1-4]|gold[1-4]|master[1-4]|champion)))(?=[.\-%_]|$)/gi;
 
 /** Quick test used by the content script scanner (excludes collected medal-* assets). */
 const RANK_KEY_PATTERN =
-  /(?:DivisionImageEmpty|(?<!medal[-_])(?:bronze|silver[1-4]|gold[1-4]|master[1-4]|champion))/i;
+  /(?:DivisionImageEmpty|(?<!medal[-_])(?:bronze[1-4]?|silver[1-4]|gold[1-4]|master[1-4]|champion))/i;
 
 /**
  * @param {string} value
@@ -58,7 +62,7 @@ function normalizeRankKey(stem) {
     return stripped;
   }
 
-  const embedded = lower.match(/(bronze|silver[1-4]|gold[1-4]|master[1-4]|champion)$/);
+  const embedded = lower.match(/(bronze[1-4]?|silver[1-4]|gold[1-4]|master[1-4]|champion)$/);
   if (embedded && RANK_MAP[embedded[1]]) {
     return embedded[1];
   }
@@ -96,7 +100,7 @@ function extractRankKey(value) {
   if (empty) return normalizeRankKey(empty[1]);
 
   const bare = decoded.match(
-    /(?:^|[\/_]|media\/)((?:solo|duel|team|ranked)?(?:bronze|silver[1-4]|gold[1-4]|master[1-4]|champion))(?=[.\-%_]|$)/i
+    /(?:^|[\/_]|media\/)((?:solo|duel|team|ranked)?(?:bronze[1-4]?|silver[1-4]|gold[1-4]|master[1-4]|champion))(?=[.\-%_]|$)/i
   );
   return bare ? normalizeRankKey(bare[1]) : null;
 }

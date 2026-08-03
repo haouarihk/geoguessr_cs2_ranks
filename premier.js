@@ -60,20 +60,40 @@
 
   /**
    * @param {Element} row
-   * @returns {boolean}
+   * @param {number} rating
+   * @param {Element | null} replaceTarget
    */
-  function isRatingRow(row) {
-    const label = row.querySelector("span");
-    if (!label) return false;
-    const text = (label.textContent || "").trim().toLowerCase();
-    return text.startsWith("current rating") || text.startsWith("best rating");
+  function applyBadge(row, rating, replaceTarget) {
+    const existing = row.querySelector(`.cs2-premier[${ATTR}]`);
+
+    if (existing && existing.getAttribute(ATTR) === String(rating)) {
+      existing.setAttribute("data-tier", String(getPremierTier(rating)));
+      const valueEl = existing.querySelector(".cs2-premier__value");
+      if (valueEl) valueEl.textContent = formatRating(rating);
+      return;
+    }
+
+    const badge = createPremierBadge(rating);
+    if (replaceTarget) {
+      replaceTarget.replaceWith(badge);
+    } else if (existing) {
+      existing.replaceWith(badge);
+    } else {
+      row.appendChild(badge);
+    }
   }
 
   /**
+   * Current rating / Best rating rows.
    * @param {Element} row
    */
-  function restyleRatingRow(row) {
-    if (!isRatingRow(row)) return;
+  function restyleDivisionRatingRow(row) {
+    const label = row.querySelector("span");
+    if (!label) return;
+    const text = (label.textContent || "").trim().toLowerCase();
+    if (!text.startsWith("current rating") && !text.startsWith("best rating")) {
+      return;
+    }
 
     const strong = row.querySelector("strong");
     const existing = row.querySelector(`.cs2-premier[${ATTR}]`);
@@ -88,32 +108,83 @@
     const rating = Number.parseInt(ratingText, 10);
     if (!Number.isFinite(rating)) return;
 
-    if (existing && existing.getAttribute(ATTR) === String(rating)) {
-      existing.setAttribute("data-tier", String(getPremierTier(rating)));
-      const valueEl = existing.querySelector(".cs2-premier__value");
-      if (valueEl) valueEl.textContent = formatRating(rating);
-      return;
+    applyBadge(row, rating, strong);
+  }
+
+  /**
+   * Game history "Rating 514" cells.
+   * @param {Element} row
+   */
+  function restyleHistoryRatingRow(row) {
+    const label = row.querySelector('[class*="ratingLabel"]');
+    if (!label) return;
+    if ((label.textContent || "").trim().toLowerCase() !== "rating") return;
+
+    const existing = row.querySelector(`.cs2-premier[${ATTR}]`);
+    let rating = existing
+      ? Number.parseInt(existing.getAttribute(ATTR) || "", 10)
+      : NaN;
+
+    // Number sits as a text node after the label (e.g. " 514")
+    for (const node of [...row.childNodes]) {
+      if (node.nodeType !== Node.TEXT_NODE) continue;
+      const match = (node.textContent || "").match(/(\d+)/);
+      if (!match) continue;
+      rating = Number.parseInt(match[1], 10);
+      node.textContent = (node.textContent || "").replace(/\d+/, "").replace(/\s+/g, " ");
+      if (!(node.textContent || "").trim()) {
+        node.textContent = " ";
+      }
     }
 
-    const badge = createPremierBadge(rating);
-    if (strong) {
-      strong.replaceWith(badge);
-    } else if (existing) {
-      existing.replaceWith(badge);
-    } else {
-      row.appendChild(badge);
+    // Also handle wrapping strong/span if GeoGuessr changes markup later
+    if (!Number.isFinite(rating)) {
+      const numEl = row.querySelector("strong, [class*='ratingValue']");
+      if (numEl && !numEl.classList.contains("cs2-premier")) {
+        const parsed = Number.parseInt(
+          (numEl.textContent || "").replace(/[^\d]/g, ""),
+          10
+        );
+        if (Number.isFinite(parsed)) {
+          rating = parsed;
+          applyBadge(row, rating, numEl);
+          return;
+        }
+      }
     }
+
+    if (!Number.isFinite(rating)) return;
+    applyBadge(row, rating, null);
+  }
+
+  /**
+   * @param {Element} el
+   * @returns {boolean}
+   */
+  function isPremierTarget(el) {
+    return (
+      el.matches?.('[class*="divisionValue"]') ||
+      el.matches?.('[class*="game-history-player-column_rating"]') ||
+      el.matches?.('[class*="player-column_rating"]')
+    );
   }
 
   /**
    * @param {ParentNode | Document} [root]
    */
   function scan(root = document) {
-    const rows = root.querySelectorAll
-      ? root.querySelectorAll('[class*="divisionValue"]')
-      : [];
-    for (const row of rows) {
-      restyleRatingRow(row);
+    if (!root.querySelectorAll) return;
+
+    for (const row of root.querySelectorAll('[class*="divisionValue"]')) {
+      restyleDivisionRatingRow(row);
+    }
+
+    for (const row of root.querySelectorAll(
+      '[class*="game-history-player-column_rating"], [class*="player-column_rating"]'
+    )) {
+      // Avoid double-matching divisionValue if class names ever overlap
+      if (row.matches('[class*="divisionValue"]')) continue;
+      restyleHistoryRatingRow(row);
     }
   }
 
@@ -137,10 +208,7 @@
       if (mutation.type === "childList") {
         for (const node of mutation.addedNodes) {
           if (!(node instanceof Element)) continue;
-          if (
-            node.matches?.('[class*="divisionValue"]') ||
-            node.querySelector?.('[class*="divisionValue"]')
-          ) {
+          if (isPremierTarget(node) || node.querySelector?.('[class*="divisionValue"], [class*="rating"]')) {
             needsFullScan = true;
             break;
           }

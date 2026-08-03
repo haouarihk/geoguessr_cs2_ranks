@@ -69,13 +69,11 @@
 .cs2-premier__chevrons::after {
   content: "";
   position: absolute;
-  top: 0.0em;
-  bottom: 0.0em;
+  top: 0;
+  bottom: 0;
   width: 0.15em;
-  border-radius: 0.04em;
   background: var(--cs2-premier-accent);
   transform: skewX(-12deg);
-  box-shadow: 0 0 0.15em color-mix(in srgb, var(--cs2-premier-accent) 35%, transparent);
 }
 
 .cs2-premier__chevrons::before {
@@ -96,7 +94,7 @@
   padding: 0 0.42em 0 0.5em;
   background:
     var(--cs2-premier-bg);
-  transform: skewX(-10deg);
+  transform: skewX(-12deg);
 }
 
 .cs2-premier__value {
@@ -113,6 +111,15 @@
 }
 
 /* Keep label readable next to the badge */
-[class*="divisionValue"]>span:first-child {
+[class*="divisionValue"]>span:first-child,
+[class*="ratingLabel"] {
   margin-right: 0.4em;
+}
+
+[class*="game-history-player-column_rating"],
+[class*="player-column_rating"] {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.15em 0.35em;
 }

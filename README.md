@@ -14,7 +14,7 @@ Chrome extension that replaces GeoGuessr division badges with classic Counter-St
 
 | GeoGuessr | CS2 skill group |
 | --- | --- |
-| Bronze | Silver I (`skillgroup1`) |
+| Bronze (any) | Silver I (`skillgroup1`) |
 | *(no rank / empty)* | Unranked (`skillgroup_none`) — any `*DivisionImageEmpty` (solo/duel/team/…) |
 | Silver IV | Silver IV (`skillgroup4`) |
 | Silver III | Silver III (`skillgroup3`) |
