@@ -88,6 +88,20 @@ Rank keys are matched mode-agnostically (solo, duel, team, ranked prefixes are s
 | Gold | `service_medal_2018_lvl3_large` (blue) |
 | Platinum | `service_medal_2018_lvl5_large` (pink) |
 
+### Premier rating colors
+
+CS2 Premier colors use 5,000-point bands. GeoGuessr ratings are scaled by **×20** (`scaled = rating × 20`) so they map onto those bands.
+
+| Tier | Color | CS2 rating | GeoGuessr rating |
+| --- | --- | --- | --- |
+| 0 | Grey | 0 – 4,999 | 0 – 249 |
+| 1 | Light blue | 5,000 – 9,999 | 250 – 499 |
+| 2 | Blue | 10,000 – 14,999 | 500 – 749 |
+| 3 | Purple | 15,000 – 19,999 | 750 – 999 |
+| 4 | Pink | 20,000 – 24,999 | 1,000 – 1,249 |
+| 5 | Red | 25,000 – 29,999 | 1,250 – 1,499 |
+| 6 | Gold | 30,000+ | 1,500+ |
+
 ## Project layout
 
 ```
