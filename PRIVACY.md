@@ -2,7 +2,7 @@
 
 **Last updated:** August 3, 2026
 
-This privacy policy applies to the **GeoGuessr CS2 Ranks** Chrome extension (the “Extension”).
+This privacy policy applies to the **GeoGuessr CS2 Ranks** browser extension for Chrome and Firefox (the “Extension”).
 
 The Extension is **open source**. You can inspect the full source code in this repository to verify how it works.
 

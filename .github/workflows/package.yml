@@ -1,0 +1,51 @@
+name: Package extension
+
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read version
+        id: version
+        run: |
+          VERSION=$(python3 -c "import json; print(json.load(open('src/manifest.json'))['version'])")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Extension version: $VERSION"
+
+      - name: Validate manifest
+        run: python3 -c "import json; json.load(open('src/manifest.json')); print('manifest.json OK')"
+
+      - name: Build zip
+        run: |
+          mkdir -p dist
+          # Zip contents of src/ so manifest.json is at the archive root
+          (cd src && zip -r "../dist/geoguessr-cs2-ranks.zip" .)
+          unzip -l dist/geoguessr-cs2-ranks.zip
+          ls -lh dist/geoguessr-cs2-ranks.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: geoguessr-cs2-ranks-v${{ steps.version.outputs.version }}
+          path: dist/geoguessr-cs2-ranks.zip
+          if-no-files-found: error
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/geoguessr-cs2-ranks.zip
+          generate_release_notes: true
+          fail_on_unmatched_files: true

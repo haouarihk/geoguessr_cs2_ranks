@@ -1,18 +1,37 @@
 # GeoGuessr CS2 Ranks
 
-Chrome extension that replaces GeoGuessr division badges with classic Counter-Strike 2 competitive skill group icons, and styles Current/Best rating as CS2 Premier badges. Runs only on `https://www.geoguessr.com/`.
+Browser extension (Chrome + Firefox) that replaces GeoGuessr division badges with classic Counter-Strike 2 competitive skill group icons, and styles ratings as CS2 Premier badges. Runs only on `https://www.geoguessr.com/`.
 
 **Open source.** See [PRIVACY.md](PRIVACY.md) for the privacy policy.
 
 Icons are **not** shipped in the package — they are downloaded on demand from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons.
 
-## Install (unpacked)
+## Install
 
-1. Open Chrome and go to `chrome://extensions`
-2. Enable **Developer mode** (top right)
+### Chrome / Chromium / Edge
+
+1. Open `chrome://extensions` (or `edge://extensions`)
+2. Enable **Developer mode**
 3. Click **Load unpacked**
-4. Select this project folder (`geoguessr_cs2_ranks`)
+4. Select the [`src`](src) folder
+
+### Firefox
+
+1. Open `about:debugging#/runtime/this-firefox`
+2. Click **Load Temporary Add-on…**
+3. Select [`src/manifest.json`](src/manifest.json) (or a packaged `.zip` from CI)
+4. Note: temporary add-ons are removed when Firefox restarts — for permanent install, submit to [addons.mozilla.org](https://addons.mozilla.org/) or sideload a signed build
+
 5. Open [geoguessr.com](https://www.geoguessr.com/) and check a ranked division badge
+
+### Packaged zip (CI)
+
+GitHub Actions builds `geoguessr-cs2-ranks.zip` on every push/PR (artifact) and attaches it to releases when you push a `v*` tag:
+
+```bash
+git tag v1.4.0
+git push origin v1.4.0
+```
 
 ## Rank mapping
 
@@ -45,12 +64,19 @@ Rank keys are matched mode-agnostically (solo, duel, team, ranked prefixes are s
 | Gold | `service_medal_2018_lvl3_large` (blue) |
 | Platinum | `service_medal_2018_lvl5_large` (pink) |
 
-## Files
+## Project layout
 
-- `manifest.json` — MV3 extension config
-- `icons-remote.js` — fetch + blob cache for remote icons
-- `ranks.js` — rank key → skillgroup filename
-- `content.js` — division image replacements
-- `medals.js` / `medals-content.js` — collected medals
-- `premier.js` / `premier.css` — Premier-style rating badges
-- `PRIVACY.md` — privacy policy
+```
+src/                 # extension package root (load this folder / zip these files)
+  manifest.json
+  icons-remote.js
+  ranks.js
+  content.js
+  medals.js
+  medals-content.js
+  premier.js
+  premier.css
+.github/workflows/   # CI packaging
+PRIVACY.md
+README.md
+```
