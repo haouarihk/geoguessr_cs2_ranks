@@ -27,6 +27,15 @@
    * @param {HTMLImageElement} img
    */
   function replaceImg(img) {
+    // Collected medals use Premier season medals, not skill groups.
+    if (
+      typeof isCollectedMedalImage === "function" &&
+      isCollectedMedalImage(img)
+    ) {
+      return;
+    }
+    if (img.getAttribute("data-cs2-medal")) return;
+
     const rankKey = rankKeyFromImg(img);
     if (!rankKey) return;
 

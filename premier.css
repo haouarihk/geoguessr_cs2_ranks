@@ -1,0 +1,118 @@
+/* CS2 Premier-style rating badge (CSS/HTML only, no images) */
+
+.cs2-premier {
+  --cs2-premier-accent: #b1c4d9;
+  --cs2-premier-bg: #2c2f37;
+  --cs2-premier-border: #b1c4d999;
+  --cs2-premier-text: #eef2f7;
+
+  display: inline-flex;
+  align-items: center;
+  isolation: isolate;
+  vertical-align: middle;
+  font-size: 1.15em;
+  line-height: 1;
+  user-select: none;
+}
+
+.cs2-premier[data-tier="1"] {
+  --cs2-premier-accent: #5e98d9;
+  --cs2-premier-bg: #061c36;
+  --cs2-premier-border: #5e98d999;
+  --cs2-premier-text: #8bc1ff;
+}
+
+.cs2-premier[data-tier="2"] {
+  --cs2-premier-accent: #4b69ff;
+  --cs2-premier-bg: #060e37;
+  --cs2-premier-border: #4b69ff99;
+  --cs2-premier-text: #8a9dfe;
+}
+
+.cs2-premier[data-tier="3"] {
+  --cs2-premier-accent: #8847ff;
+  --cs2-premier-bg: #180638;
+  --cs2-premier-border: #8847ff99;
+  --cs2-premier-text: #b48bff;
+}
+
+.cs2-premier[data-tier="4"] {
+  --cs2-premier-accent: #d32ce6;
+  --cs2-premier-bg: #320638;
+  --cs2-premier-border: #d32ce699;
+  --cs2-premier-text: #f177ff;
+}
+
+.cs2-premier[data-tier="5"] {
+  --cs2-premier-accent: #eb4b4b;
+  --cs2-premier-bg: #380606;
+  --cs2-premier-border: #eb4b4b99;
+  --cs2-premier-text: #ff8686;
+}
+
+.cs2-premier[data-tier="6"] {
+  --cs2-premier-accent: #ffd700;
+  --cs2-premier-bg: #383006;
+  --cs2-premier-border: #ffd70099;
+  --cs2-premier-text: #ffdf35;
+}
+
+.cs2-premier__chevrons {
+  position: relative;
+  z-index: 1;
+  width: 0.55em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+.cs2-premier__chevrons::before,
+.cs2-premier__chevrons::after {
+  content: "";
+  position: absolute;
+  top: 0.0em;
+  bottom: 0.0em;
+  width: 0.15em;
+  border-radius: 0.04em;
+  background: var(--cs2-premier-accent);
+  transform: skewX(-12deg);
+  box-shadow: 0 0 0.15em color-mix(in srgb, var(--cs2-premier-accent) 35%, transparent);
+}
+
+.cs2-premier__chevrons::before {
+  left: 0.35em;
+}
+
+.cs2-premier__chevrons::after {
+  left: 0.6em;
+}
+
+.cs2-premier__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -0.22em;
+  min-width: 2.7em;
+  height: 1em;
+  padding: 0 0.42em 0 0.5em;
+  background:
+    var(--cs2-premier-bg);
+  transform: skewX(-10deg);
+}
+
+.cs2-premier__value {
+  display: inline-block;
+  transform: skewX(10deg);
+  color: var(--cs2-premier-text);
+  font-family: "Arial Narrow", "Segoe UI", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 0.62em;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 0.45em color-mix(in srgb, var(--cs2-premier-accent) 45%, transparent);
+  white-space: nowrap;
+}
+
+/* Keep label readable next to the badge */
+[class*="divisionValue"]>span:first-child {
+  margin-right: 0.4em;
+}

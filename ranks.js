@@ -20,9 +20,9 @@ const RANK_MAP = {
 const MEDIA_STEM_PATTERN =
   /(?:media\/|media%2F|\/)((?:[a-zA-Z]+DivisionImageEmpty)|(?:(?:solo|duel|team|ranked)?(?:bronze|silver[1-4]|gold[1-4]|master[1-4]|champion)))(?=[.\-%_]|$)/gi;
 
-/** Quick test used by the content script scanner. */
+/** Quick test used by the content script scanner (excludes collected medal-* assets). */
 const RANK_KEY_PATTERN =
-  /(?:DivisionImageEmpty|bronze|silver[1-4]|gold[1-4]|master[1-4]|champion)/i;
+  /(?:DivisionImageEmpty|(?<!medal[-_])(?:bronze|silver[1-4]|gold[1-4]|master[1-4]|champion))/i;
 
 /**
  * @param {string} value
@@ -75,17 +75,28 @@ function extractRankKey(value) {
   if (!value) return null;
 
   const decoded = decodeSafe(value);
+
+  // Collected medals (medal-bronze.svg etc.) are handled separately.
+  if (/medal[-_]?(bronze|silver|gold|platinum)/i.test(decoded)) {
+    return null;
+  }
+
   MEDIA_STEM_PATTERN.lastIndex = 0;
 
   let match;
   while ((match = MEDIA_STEM_PATTERN.exec(decoded)) !== null) {
-    const key = normalizeRankKey(match[1]);
+    const stem = match[1];
+    if (/^medal/i.test(stem)) continue;
+    const key = normalizeRankKey(stem);
     if (key) return key;
   }
 
-  // Fallback: bare rank token anywhere in the string
+  // Fallback: division empty assets or exact division stems only
+  const empty = decoded.match(/([a-z0-9]*divisionimageempty)/i);
+  if (empty) return normalizeRankKey(empty[1]);
+
   const bare = decoded.match(
-    /(bronze|silver[1-4]|gold[1-4]|master[1-4]|champion|[a-z0-9]*divisionimageempty)/i
+    /(?:^|[\/_]|media\/)((?:solo|duel|team|ranked)?(?:bronze|silver[1-4]|gold[1-4]|master[1-4]|champion))(?=[.\-%_]|$)/i
   );
   return bare ? normalizeRankKey(bare[1]) : null;
 }

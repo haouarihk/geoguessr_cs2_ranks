@@ -1,6 +1,6 @@
 # GeoGuessr CS2 Ranks
 
-Chrome extension that replaces GeoGuessr division badges with classic Counter-Strike 2 competitive skill group icons. Runs only on `https://www.geoguessr.com/`.
+Chrome extension that replaces GeoGuessr division badges with classic Counter-Strike 2 competitive skill group icons, and styles Current/Best rating as CS2 Premier badges. Runs only on `https://www.geoguessr.com/`.
 
 ## Install (unpacked)
 
@@ -32,11 +32,22 @@ Chrome extension that replaces GeoGuessr division badges with classic Counter-St
 
 Rank keys are matched mode-agnostically (solo, duel, team, ranked prefixes are stripped), so the same icons apply everywhere on geoguessr.com.
 
-Icons are bundled from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons.
+### Collected medals → CS2 Premier medals
+
+| GeoGuessr | CS2 Premier medal |
+| --- | --- |
+| Bronze | Grey |
+| Silver | Light blue |
+| Gold | Blue |
+| Platinum | Pink |
+
+Icons are bundled from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons. Premier medals are cropped from `cs2medals.png`.
 
 ## Files
 
 - `manifest.json` — MV3 extension config
 - `ranks.js` — rank key → icon map
-- `content.js` — DOM scanner + MutationObserver
-- `icons/` — bundled skill group PNGs
+- `content.js` — DOM scanner + MutationObserver for division images
+- `medals.js` / `medals-content.js` — collected medals → Premier medals
+- `premier.js` / `premier.css` — Current/Best rating → Premier-style badge
+- `icons/` — bundled skill group + Premier medal PNGs
