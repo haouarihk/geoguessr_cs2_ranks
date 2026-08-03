@@ -126,3 +126,8 @@
 [class*="player-stats-card"] [class*="value"] .cs2-premier {
   font-size: 0.85em;
 }
+
+[class*="team-stats-card"] [class*="teamStatValue"] .cs2-premier,
+[class*="team-stats-card"] [class*="StatValue"] .cs2-premier {
+  font-size: 0.85em;
+}

@@ -181,14 +181,22 @@
   }
 
   /**
-   * Player stats card mode ratings (Overall / Moving / No Move / NMPZ).
-   * Skips percentages and non-mode stats (games played, etc.).
+   * Mode ratings on player/team stats cards (Overall / Moving / No Move / NMPZ).
+   * Language-agnostic: English mode prefixes stay in all locales.
    * @param {Element} container
    */
-  function restylePlayerStatContainer(container) {
-    const titleEl = container.querySelector('[class*="title"]');
-    const valueEl = container.querySelector('[class*="value"]');
+  function restyleModeRatingStat(container) {
+    const titleEl = container.querySelector(
+      '[class*="title"], [class*="teamStatLabel"], [class*="StatLabel"]'
+    );
+    const valueEl = container.querySelector(
+      '[class*="value"], [class*="teamStatValue"], [class*="StatValue"]'
+    );
     if (!titleEl || !valueEl) return;
+    // Avoid treating the premier badge itself as the value host's title
+    if (titleEl.classList.contains("cs2-premier") || valueEl.classList.contains("cs2-premier")) {
+      return;
+    }
 
     const title = (titleEl.textContent || "").trim();
     if (!MODE_RATING_TITLE_RE.test(title)) return;
@@ -216,7 +224,9 @@
       el.matches?.('[class*="game-history-player-column_rating"]') ||
       el.matches?.('[class*="player-column_rating"]') ||
       el.matches?.('[class*="player-stats-card"]') ||
-      el.matches?.('[class*="statContainer"]')
+      el.matches?.('[class*="team-stats-card"]') ||
+      el.matches?.('[class*="statContainer"]') ||
+      el.matches?.('[class*="teamStatItem"]')
     );
   }
 
@@ -237,13 +247,11 @@
       restyleHistoryRatingRow(row);
     }
 
-    // Mode ratings live under the player stats "ratingAndMisc" block
-    for (const card of root.querySelectorAll(
-      '[class*="player-stats-card_rating"], [class*="ratingAndMisc"]'
+    // Player + team mode ratings
+    for (const container of root.querySelectorAll(
+      '[class*="statContainer"], [class*="teamStatItem"]'
     )) {
-      for (const container of card.querySelectorAll('[class*="statContainer"]')) {
-        restylePlayerStatContainer(container);
-      }
+      restyleModeRatingStat(container);
     }
   }
 
@@ -270,7 +278,7 @@
           if (
             isPremierTarget(node) ||
             node.querySelector?.(
-              '[class*="divisionValue"], [class*="ratingLabel"], [class*="player-column_rating"], [class*="player-stats-card"], [class*="statContainer"]'
+              '[class*="divisionValue"], [class*="ratingLabel"], [class*="player-column_rating"], [class*="player-stats-card"], [class*="team-stats-card"], [class*="statContainer"], [class*="teamStatItem"]'
             )
           ) {
             needsFullScan = true;
