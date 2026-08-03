@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "GeoGuessr CS2 Ranks",
+  "version": "1.0.0",
+  "description": "Replace GeoGuessr division badges with Counter-Strike 2 skill group icons.",
+  "content_scripts": [
+    {
+      "matches": ["https://www.geoguessr.com/*"],
+      "js": ["ranks.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*"],
+      "matches": ["https://www.geoguessr.com/*"]
+    }
+  ]
+}
