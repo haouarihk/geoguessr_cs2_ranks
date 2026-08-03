@@ -30,7 +30,7 @@ Icons are **not** shipped in the package — they are downloaded on demand from 
 
 ![Gold division with CS2 skill group icon and Premier-style ratings](screenshots/gold-ss.png)
 
-## Install
+## Manual install
 
 ### Chrome / Chromium / Edge
 
@@ -44,7 +44,7 @@ Icons are **not** shipped in the package — they are downloaded on demand from 
 1. Open `about:debugging#/runtime/this-firefox`
 2. Click **Load Temporary Add-on…**
 3. Select [`src/manifest.json`](src/manifest.json) (or a packaged `.zip` from CI)
-4. Note: temporary add-ons are removed when Firefox restarts — for permanent install, submit to [addons.mozilla.org](https://addons.mozilla.org/) or sideload a signed build
+4. Note: temporary add-ons are removed when Firefox restarts — prefer the [Firefox Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/geoguessr-cs2-ranks/) for a permanent install
 
 5. Open [geoguessr.com](https://www.geoguessr.com/) and check a ranked division badge
 
