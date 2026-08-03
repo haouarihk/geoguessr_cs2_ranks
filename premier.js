@@ -2,12 +2,16 @@
   const ATTR = "data-cs2-premier";
   const DEBOUNCE_MS = 50;
 
+  /**
+   * Mode rating titles keep English mode names across GeoGuessr locales
+   * (e.g. "Overall Bewertung", "No Move Bewertung").
+   */
+  const MODE_RATING_TITLE_RE = /^(overall|moving|no\s*move|nmpz)\b/i;
+
   /** @type {ReturnType<typeof setTimeout> | null} */
   let debounceTimer = null;
 
   /**
-   * Map a GeoGuessr rating onto CS2 Premier color tiers.
-   * GeoGuessr ratings are ~0–2000; scale ×20 so colors progress through the ladder.
    * @param {number} rating
    * @returns {number}
    */
@@ -28,6 +32,16 @@
    */
   function formatRating(rating) {
     return rating.toLocaleString("en-US");
+  }
+
+  /**
+   * @param {string} text
+   * @returns {number}
+   */
+  function parseRating(text) {
+    const digits = (text || "").replace(/[^\d]/g, "");
+    if (!digits) return NaN;
+    return Number.parseInt(digits, 10);
   }
 
   /**
@@ -59,12 +73,13 @@
   }
 
   /**
-   * @param {Element} row
+   * @param {Element} host
    * @param {number} rating
+   * @param {"replace" | "fill"} mode
    * @param {Element | null} replaceTarget
    */
-  function applyBadge(row, rating, replaceTarget) {
-    const existing = row.querySelector(`.cs2-premier[${ATTR}]`);
+  function applyBadge(host, rating, mode, replaceTarget) {
+    const existing = host.querySelector(`.cs2-premier[${ATTR}]`);
 
     if (existing && existing.getAttribute(ATTR) === String(rating)) {
       existing.setAttribute("data-tier", String(getPremierTier(rating)));
@@ -74,87 +89,121 @@
     }
 
     const badge = createPremierBadge(rating);
-    if (replaceTarget) {
-      replaceTarget.replaceWith(badge);
-    } else if (existing) {
-      existing.replaceWith(badge);
-    } else {
-      row.appendChild(badge);
-    }
-  }
 
-  /**
-   * Current rating / Best rating rows.
-   * @param {Element} row
-   */
-  function restyleDivisionRatingRow(row) {
-    const label = row.querySelector("span");
-    if (!label) return;
-    const text = (label.textContent || "").trim().toLowerCase();
-    if (!text.startsWith("current rating") && !text.startsWith("best rating")) {
+    if (mode === "replace" && replaceTarget) {
+      replaceTarget.replaceWith(badge);
       return;
     }
 
-    const strong = row.querySelector("strong");
-    const existing = row.querySelector(`.cs2-premier[${ATTR}]`);
-
-    let ratingText = "";
-    if (strong) {
-      ratingText = (strong.textContent || "").replace(/[^\d]/g, "");
-    } else if (existing) {
-      ratingText = existing.getAttribute(ATTR) || "";
+    if (existing) {
+      existing.replaceWith(badge);
+      return;
     }
 
-    const rating = Number.parseInt(ratingText, 10);
-    if (!Number.isFinite(rating)) return;
+    if (mode === "fill") {
+      host.textContent = "";
+      host.appendChild(badge);
+      return;
+    }
 
-    applyBadge(row, rating, strong);
+    host.appendChild(badge);
   }
 
   /**
-   * Game history "Rating 514" cells.
+   * Division widget: [class*=divisionValue] with span label + strong number.
+   * Ignores label language entirely.
+   * @param {Element} row
+   */
+  function restyleDivisionRatingRow(row) {
+    const existing = row.querySelector(`.cs2-premier[${ATTR}]`);
+    /** @type {HTMLElement | null} */
+    let strong = null;
+    /** @type {HTMLElement | null} */
+    let label = null;
+
+    for (const child of row.children) {
+      if (!(child instanceof HTMLElement)) continue;
+      if (child.classList.contains("cs2-premier")) continue;
+      if (child.tagName === "STRONG") strong = child;
+      if (child.tagName === "SPAN") label = child;
+    }
+
+    if (!existing && (!label || !strong)) return;
+
+    let rating = NaN;
+    if (strong) {
+      rating = parseRating(strong.textContent || "");
+    } else if (existing) {
+      rating = Number.parseInt(existing.getAttribute(ATTR) || "", 10);
+    }
+
+    if (!Number.isFinite(rating)) return;
+    applyBadge(row, rating, "replace", strong);
+  }
+
+  /**
+   * Game history cells with [class*=ratingLabel] + number text node.
    * @param {Element} row
    */
   function restyleHistoryRatingRow(row) {
     const label = row.querySelector('[class*="ratingLabel"]');
     if (!label) return;
-    if ((label.textContent || "").trim().toLowerCase() !== "rating") return;
 
     const existing = row.querySelector(`.cs2-premier[${ATTR}]`);
     let rating = existing
       ? Number.parseInt(existing.getAttribute(ATTR) || "", 10)
       : NaN;
 
-    // Number sits as a text node after the label (e.g. " 514")
     for (const node of [...row.childNodes]) {
       if (node.nodeType !== Node.TEXT_NODE) continue;
       const match = (node.textContent || "").match(/(\d+)/);
       if (!match) continue;
       rating = Number.parseInt(match[1], 10);
-      node.textContent = (node.textContent || "").replace(/\d+/, "").replace(/\s+/g, " ");
-      if (!(node.textContent || "").trim()) {
-        node.textContent = " ";
-      }
+      node.textContent = (node.textContent || "")
+        .replace(/\d+/g, "")
+        .replace(/\s+/g, " ");
+      if (!(node.textContent || "").trim()) node.textContent = " ";
     }
 
-    // Also handle wrapping strong/span if GeoGuessr changes markup later
     if (!Number.isFinite(rating)) {
       const numEl = row.querySelector("strong, [class*='ratingValue']");
       if (numEl && !numEl.classList.contains("cs2-premier")) {
-        const parsed = Number.parseInt(
-          (numEl.textContent || "").replace(/[^\d]/g, ""),
-          10
-        );
+        const parsed = parseRating(numEl.textContent || "");
         if (Number.isFinite(parsed)) {
-          rating = parsed;
-          applyBadge(row, rating, numEl);
+          applyBadge(row, parsed, "replace", numEl);
           return;
         }
       }
     }
 
     if (!Number.isFinite(rating)) return;
-    applyBadge(row, rating, null);
+    applyBadge(row, rating, "replace", null);
+  }
+
+  /**
+   * Player stats card mode ratings (Overall / Moving / No Move / NMPZ).
+   * Skips percentages and non-mode stats (games played, etc.).
+   * @param {Element} container
+   */
+  function restylePlayerStatContainer(container) {
+    const titleEl = container.querySelector('[class*="title"]');
+    const valueEl = container.querySelector('[class*="value"]');
+    if (!titleEl || !valueEl) return;
+
+    const title = (titleEl.textContent || "").trim();
+    if (!MODE_RATING_TITLE_RE.test(title)) return;
+
+    const existing = valueEl.querySelector(`.cs2-premier[${ATTR}]`);
+    const raw = (valueEl.textContent || "").trim();
+    if (!existing && raw.includes("%")) return;
+    if (!existing && !/^\d+$/.test(raw)) return;
+
+    const rating = existing
+      ? Number.parseInt(existing.getAttribute(ATTR) || "", 10)
+      : parseRating(raw);
+
+    if (!Number.isFinite(rating)) return;
+    applyBadge(valueEl, rating, "fill", null);
   }
 
   /**
@@ -165,7 +214,9 @@
     return (
       el.matches?.('[class*="divisionValue"]') ||
       el.matches?.('[class*="game-history-player-column_rating"]') ||
-      el.matches?.('[class*="player-column_rating"]')
+      el.matches?.('[class*="player-column_rating"]') ||
+      el.matches?.('[class*="player-stats-card"]') ||
+      el.matches?.('[class*="statContainer"]')
     );
   }
 
@@ -182,9 +233,17 @@
     for (const row of root.querySelectorAll(
       '[class*="game-history-player-column_rating"], [class*="player-column_rating"]'
     )) {
-      // Avoid double-matching divisionValue if class names ever overlap
       if (row.matches('[class*="divisionValue"]')) continue;
       restyleHistoryRatingRow(row);
+    }
+
+    // Mode ratings live under the player stats "ratingAndMisc" block
+    for (const card of root.querySelectorAll(
+      '[class*="player-stats-card_rating"], [class*="ratingAndMisc"]'
+    )) {
+      for (const container of card.querySelectorAll('[class*="statContainer"]')) {
+        restylePlayerStatContainer(container);
+      }
     }
   }
 
@@ -208,7 +267,12 @@
       if (mutation.type === "childList") {
         for (const node of mutation.addedNodes) {
           if (!(node instanceof Element)) continue;
-          if (isPremierTarget(node) || node.querySelector?.('[class*="divisionValue"], [class*="rating"]')) {
+          if (
+            isPremierTarget(node) ||
+            node.querySelector?.(
+              '[class*="divisionValue"], [class*="ratingLabel"], [class*="player-column_rating"], [class*="player-stats-card"], [class*="statContainer"]'
+            )
+          ) {
             needsFullScan = true;
             break;
           }

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GeoGuessr CS2 Ranks",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "description": "Replace GeoGuessr division badges with CS2 skill group icons, Premier ratings, and Premier medals.",
   "host_permissions": [
     "https://raw.githubusercontent.com/*"

@@ -123,3 +123,6 @@
   flex-wrap: wrap;
   gap: 0.15em 0.35em;
 }
+[class*="player-stats-card"] [class*="value"] .cs2-premier {
+  font-size: 0.85em;
+}
