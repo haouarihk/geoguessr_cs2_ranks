@@ -1,6 +1,6 @@
 # GeoGuessr CS2 Ranks
 
-Browser extension (Chrome + Firefox) that replaces GeoGuessr division badges with classic Counter-Strike 2 competitive skill group icons, and styles ratings as CS2 Premier badges. Runs only on `https://www.geoguessr.com/`.
+Browser extension (Chrome + Firefox) that replaces GeoGuessr division badges with classic Counter-Strike 2 competitive skill group icons, styles ratings as CS2 Premier badges, and swaps duel HUD multipliers for CS weapon images. Runs only on `https://www.geoguessr.com/`.
 
 **Open source** under [GPL-3.0](LICENSE). See [PRIVACY.md](PRIVACY.md) for the privacy policy.
 
@@ -101,6 +101,10 @@ CS2 Premier colors use 5,000-point bands. GeoGuessr ratings are scaled by **×20
 | 4 | Pink | 20,000 – 24,999 | 1,000 – 1,249 |
 | 5 | Red | 25,000 – 29,999 | 1,250 – 1,499 |
 | 6 | Gold | 30,000+ | 1,500+ |
+
+### Duel multipliers → weapons
+
+In ranked duels, the `xN.N` multiplier indicator is overlaid on a CS weapon image (`assets/1.0.webp` … `6.5.webp`), matched to the current multiplier value.
 
 ## Project layout
 
