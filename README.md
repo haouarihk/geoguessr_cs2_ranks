@@ -107,7 +107,7 @@ CS2 Premier colors use 5,000-point bands. GeoGuessr ratings are scaled by **×20
 ```
 manifest.json        # extension entry (paths point into src/)
 src/                 # content scripts + styles
-assets/              # image assets
+assets/              # duel multiplier weapon images (1.0.webp … 6.5.webp)
 badges/              # store install buttons for the README
 screenshots/         # README images
 .github/workflows/   # CI packaging

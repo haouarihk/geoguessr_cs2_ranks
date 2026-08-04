@@ -1,0 +1,59 @@
+/* Duels HUD multiplier: weapon art with small xN.N badge at bottom-right */
+
+.cs2-multiplier,
+[class*="multiplier-indicator_container"].cs2-multiplier {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 5.5rem !important;
+  height: 4rem !important;
+  min-width: 5.5rem !important;
+  min-height: 4rem !important;
+  overflow: visible !important;
+}
+
+.cs2-multiplier-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.65));
+}
+
+/* Left player: mirror so the weapon points toward the opponent */
+.cs2-multiplier--left .cs2-multiplier-img {
+  transform: scaleX(-1);
+}
+
+/* Small multiplier number overlaid on the bottom-right of the weapon */
+.cs2-multiplier [class*="multiplier-indicator_text"] {
+  position: absolute !important;
+  right: -0.15rem;
+  bottom: -0.1rem;
+  z-index: 2;
+  margin: 0 !important;
+  padding: 0.05em 0.2em;
+  font-size: 0.72rem !important;
+  font-weight: 800;
+  line-height: 1 !important;
+  white-space: nowrap;
+  border-radius: 0.2em;
+  background: rgba(0, 0, 0, 0.55);
+  text-shadow:
+    0 0 0.25em rgba(0, 0, 0, 0.95),
+    0 1px 1px rgba(0, 0, 0, 0.9);
+}
+
+.cs2-multiplier [class*="outlined-text_wrapper"] {
+  position: relative;
+  z-index: 2;
+  font-size: inherit !important;
+}
+
+.cs2-multiplier [class*="multiplier-indicator_decimal"] {
+  font-size: 0.85em !important;
+}

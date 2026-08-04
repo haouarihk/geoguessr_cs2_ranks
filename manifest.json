@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GeoGuessr CS2 Ranks",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Replace GeoGuessr division badges with CS2 skill group icons, Premier ratings, and Premier medals.",
   "browser_specific_settings": {
     "gecko": {
@@ -24,10 +24,17 @@
         "src/medals.js",
         "src/content.js",
         "src/medals-content.js",
-        "src/premier.js"
+        "src/premier.js",
+        "src/multiplier.js"
       ],
-      "css": ["src/premier.css"],
+      "css": ["src/premier.css", "src/multiplier.css"],
       "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*"],
+      "matches": ["https://www.geoguessr.com/*"]
     }
   ]
 }

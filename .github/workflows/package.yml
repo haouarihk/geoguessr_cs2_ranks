@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p dist
           # manifest.json at archive root; scripts under src/
-          zip -r dist/geoguessr-cs2-ranks.zip manifest.json src
+          zip -r dist/geoguessr-cs2-ranks.zip manifest.json src assets
           unzip -l dist/geoguessr-cs2-ranks.zip
           ls -lh dist/geoguessr-cs2-ranks.zip
 
