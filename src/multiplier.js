@@ -3,24 +3,38 @@
   const IMG_CLASS = "cs2-multiplier-img";
   const DEBOUNCE_MS = 50;
 
-  /** Available asset keys: 1.0 … 6.5 in 0.5 steps. */
-  const MULTIPLIER_ASSETS = new Set([
-    "1.0",
+  /**
+   * Available weapon assets (filenames without .webp), ascending.
+   * Gaps fall back to the last asset ≤ the multiplier (e.g. 4.5→4.0, 6.5→6.0).
+   */
+  const MULTIPLIER_ASSETS = [
     "1.5",
     "2.0",
     "2.5",
     "3.0",
     "3.5",
     "4.0",
-    "4.5",
-    "5.0",
-    "5.5",
     "6.0",
-    "6.5",
-  ]);
+    "7.0",
+  ];
 
   /** @type {ReturnType<typeof setTimeout> | null} */
   let debounceTimer = null;
+
+  /**
+   * Pick the asset for a multiplier: exact match if present, else the
+   * highest available image that is still ≤ the value (clamp to ends).
+   * @param {number} value
+   * @returns {string}
+   */
+  function resolveAssetKey(value) {
+    let chosen = MULTIPLIER_ASSETS[0];
+    for (const key of MULTIPLIER_ASSETS) {
+      if (Number.parseFloat(key) <= value) chosen = key;
+      else break;
+    }
+    return chosen;
+  }
 
   /**
    * @param {string} text
@@ -33,10 +47,7 @@
     const value = Number.parseFloat(match[1]);
     if (!Number.isFinite(value) || value <= 0) return null;
 
-    // Snap to nearest 0.5 step within supported range
-    const snapped = Math.min(6.5, Math.max(1, Math.round(value * 2) / 2));
-    const key = snapped.toFixed(1);
-    return MULTIPLIER_ASSETS.has(key) ? key : null;
+    return resolveAssetKey(value);
   }
 
   /**

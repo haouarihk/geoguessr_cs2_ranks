@@ -104,14 +104,14 @@ CS2 Premier colors use 5,000-point bands. GeoGuessr ratings are scaled by **×20
 
 ### Duel multipliers → weapons
 
-In ranked duels, the `xN.N` multiplier indicator is overlaid on a CS weapon image (`assets/1.0.webp` … `6.5.webp`), matched to the current multiplier value.
+In ranked duels, the `xN.N` multiplier indicator is overlaid on a CS weapon image from `assets/` (`1.5`, `2.0`, `2.5`, `3.0`, `3.5`, `4.0`, `6.0`, `7.0`). Exact matches use that file; gaps use the last available image at or below the value (e.g. `x5.0` → `4.0`, `x6.5` → `6.0`). The left player’s weapon is mirrored so both sides aim toward the middle.
 
 ## Project layout
 
 ```
 manifest.json        # extension entry (paths point into src/)
 src/                 # content scripts + styles
-assets/              # duel multiplier weapon images (1.0.webp … 6.5.webp)
+assets/              # duel multiplier weapon images (1.5, 2.0 … 4.0, 6.0, 7.0)
 badges/              # store install buttons for the README
 screenshots/         # README images
 .github/workflows/   # CI packaging
