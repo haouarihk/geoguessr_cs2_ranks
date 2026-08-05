@@ -105,7 +105,7 @@ function extractRankKey(value) {
 }
 
 /**
- * Resolve the remote CS2 icon filename for a GeoGuessr rank key.
+ * Resolve the local CS2 icon filename for a GeoGuessr rank key.
  * @param {string} rankKey
  * @returns {string | null}
  */

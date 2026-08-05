@@ -1,12 +1,12 @@
 /**
  * GeoGuessr collected medals → CS service medals (colored Premier-style stars).
- * lvl1 grey … lvl5 pink — from the same SteamTracking status_icons dump.
+ * Icons ship locally under assets/.
  */
 const COLLECTED_MEDAL_MAP = {
-  bronze: "service_medal_2018_lvl1_large.png",
-  silver: "service_medal_2018_lvl2_large.png",
-  gold: "service_medal_2018_lvl3_large.png",
-  platinum: "service_medal_2018_lvl5_large.png",
+  bronze: "service_medal_2018_lvl1_large.webp",
+  silver: "service_medal_2018_lvl2_large.webp",
+  gold: "service_medal_2018_lvl3_large.webp",
+  platinum: "service_medal_2018_lvl5_large.webp",
 };
 
 /**

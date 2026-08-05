@@ -14,16 +14,13 @@
       }
     }
   },
-  "host_permissions": [
-    "https://raw.githubusercontent.com/*"
-  ],
   "content_scripts": [
     {
       "matches": [
         "https://www.geoguessr.com/*"
       ],
       "js": [
-        "src/icons-remote.js",
+        "src/icons.js",
         "src/ranks.js",
         "src/medals.js",
         "src/content.js",

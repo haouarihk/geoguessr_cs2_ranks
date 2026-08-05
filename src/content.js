@@ -51,10 +51,7 @@
     img.removeAttribute("data-srcset");
     img.removeAttribute("data-src");
 
-    resolveIconUrl(filename).then((url) => {
-      if (img.getAttribute(ATTR) !== rankKey) return;
-      img.src = url;
-    });
+    img.src = resolveIconUrl(filename);
   }
 
   /**

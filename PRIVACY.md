@@ -1,6 +1,6 @@
 # Privacy Policy — GeoGuessr CS2 Ranks
 
-**Last updated:** August 3, 2026
+**Last updated:** August 5, 2026
 
 This privacy policy applies to the **GeoGuessr CS2 Ranks** browser extension for Chrome and Firefox (the “Extension”).
 
@@ -21,7 +21,7 @@ The Extension runs only on `https://www.geoguessr.com/*` and visually replaces:
 - rating numbers with CS2 Premier-style badges
 - collected medals with CS2-style service medals
 
-Scripts and styles ship inside the Extension package. **Rank and medal images are fetched at runtime** from public GitHub raw URLs ([SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons) and cached briefly in memory as local `blob:` URLs for display. No user data is uploaded in those requests — only standard image downloads.
+Rank and medal icons (and duel weapon images) ship inside the Extension package under `assets/`. No remote image downloads.
 
 ## Data we collect
 
@@ -51,9 +51,8 @@ That content is used **only locally** to update the page display. It is not uplo
 ### Host permissions
 
 - `https://www.geoguessr.com/*` — inject scripts/styles and update rank-related UI on GeoGuessr.
-- `https://raw.githubusercontent.com/*` — download public CS2 status-icon PNGs used for ranks and medals.
 
-The Extension does not request access to unrelated websites.
+The Extension does not request access to unrelated websites, and does not fetch remote assets.
 
 ### No remote code
 

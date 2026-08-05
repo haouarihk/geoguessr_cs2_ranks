@@ -18,7 +18,7 @@ You may use, modify, and redistribute this project freely, as long as derivative
   <sub>Chrome Web Store listing is not available yet. Firefox is live on <a href="https://addons.mozilla.org/en-US/firefox/addon/geoguessr-cs2-ranks/">addons.mozilla.org</a>.</sub>
 </p>
 
-Icons are **not** shipped in the package — they are downloaded on demand from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons.
+Skill group icons, service medals, and duel weapon images ship in [`assets/`](assets/) (originally from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons for ranks/medals).
 
 ## Screenshots
 
@@ -111,7 +111,7 @@ In ranked duels, the `xN.N` multiplier indicator is overlaid on a CS weapon imag
 ```
 manifest.json        # extension entry (paths point into src/)
 src/                 # content scripts + styles
-assets/              # duel multiplier weapon images (1.5, 2.0 … 4.0, 6.0, 7.0)
+assets/              # skill groups, service medals, duel weapon images
 badges/              # store install buttons for the README
 screenshots/         # README images
 .github/workflows/   # CI packaging
