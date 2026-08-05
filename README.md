@@ -30,6 +30,10 @@ Icons are **not** shipped in the package — they are downloaded on demand from 
 
 ![Gold division with CS2 skill group icon and Premier-style ratings](screenshots/gold-ss.png)
 
+
+<img width="1920" height="317" alt="1785918570987112784" src="https://github.com/user-attachments/assets/bb57a837-9a49-45ef-99f7-1c502d3f3745" />
+
+
 ## Manual install
 
 ### Chrome / Chromium / Edge
