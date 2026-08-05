@@ -20,6 +20,10 @@ You may use, modify, and redistribute this project freely, as long as derivative
 
 Skill group icons, service medals, and duel weapon images ship in [`assets/`](assets/) (originally from [SteamTracking/GameTracking-CS2](https://github.com/SteamTracking/GameTracking-CS2) status icons for ranks/medals).
 
+## Disclaimer
+
+This is an unofficial fan project made for fun. It is **not** associated with, affiliated with, endorsed by, or sponsored by Valve Corporation, Counter-Strike, or GeoGuessr in any way. All related trademarks and assets belong to their respective owners. The author does **not** profit from this extension.
+
 ## Screenshots
 
 ![Champion division with Global Elite icon and Premier-style ratings](screenshots/global-ss.png)

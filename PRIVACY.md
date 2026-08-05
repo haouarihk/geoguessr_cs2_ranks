@@ -86,4 +86,4 @@ For privacy questions about this Extension, open an issue in this repository or 
 
 ## Not affiliated
 
-This project is not affiliated with, endorsed by, or sponsored by GeoGuessr, Valve, or Counter-Strike.
+This is an unofficial fan project made for fun. It is not associated with, affiliated with, endorsed by, or sponsored by Valve Corporation, Counter-Strike, or GeoGuessr. The author does not profit from this Extension.
