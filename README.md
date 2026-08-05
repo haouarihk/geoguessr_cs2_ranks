@@ -2,9 +2,8 @@
 
 Browser extension (Chrome + Firefox) that replaces GeoGuessr division badges with classic Counter-Strike 2 competitive skill group icons, styles ratings as CS2 Premier badges, and swaps duel HUD multipliers for CS weapon images. Runs only on `https://www.geoguessr.com/`.
 
-**Open source** under [GPL-3.0](LICENSE). See [PRIVACY.md](PRIVACY.md) for the privacy policy.
 
-You may use, modify, and redistribute this project freely, as long as derivative works remain open source under the same license.
+
 
 <p align="center">
   <img src="badges/chrome-coming-soon.png" alt="Available in the Chrome Web Store — Coming soon" height="60">
@@ -129,6 +128,8 @@ LICENSE              # GPL-3.0
 PRIVACY.md
 README.md
 ```
+
+**Open source** under [GPL-3.0](LICENSE). See [PRIVACY.md](PRIVACY.md) for the privacy policy.
 
 ## License
 
